@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Performance Calculator</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- Left sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-section-label">Views</div>
+      <div class="nav-item active" id="nav-hardware" onclick="app.navigate('hardware-list')">Hardware</div>
+      <div class="nav-item"        id="nav-models"   onclick="app.navigate('models-list')">Models</div>
+    </nav>
+
+    <!-- Main content mount point -->
+    <div class="main-content" id="app">
+      <p style="color:#475569;font-size:0.8rem;padding-top:40px;text-align:center">Loading data…</p>
+    </div>
+
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,483 @@
+[
+  {
+    "id": "deepseek-r1",
+    "name": "DeepSeek R1",
+    "vendor": "DeepSeek",
+    "architecture": "moe",
+    "total_params_b": 671,
+    "active_params_b": 37,
+    "context_length_k": 128,
+    "license": "MIT",
+    "hf_url": "https://huggingface.co/deepseek-ai",
+    "tier": "frontier",
+    "release_date": "2025-01",
+    "tagline": "Best open reasoning. CoT specialist. Needs multi-GPU cluster.",
+    "notes": ["Reasoning MoE — think tokens make effective context very long; full 671B requires cluster"],
+    "variants": [
+      {"quant":"FP8","bits_per_weight":8,"vram_gb":671,"disk_gb":629,"kv_cache_gb_at_full_ctx":40,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":420,"disk_gb":388,"kv_cache_gb_at_full_ctx":40,"quality_pct":"~87%"}
+    ]
+  },
+  {
+    "id": "deepseek-v3",
+    "name": "DeepSeek V3",
+    "vendor": "DeepSeek",
+    "architecture": "moe",
+    "total_params_b": 671,
+    "active_params_b": 37,
+    "context_length_k": 128,
+    "license": "MIT",
+    "hf_url": "https://huggingface.co/deepseek-ai",
+    "tier": "frontier",
+    "release_date": "2024-12",
+    "tagline": "Top open general MoE. Fast at scale. Cluster hardware only.",
+    "notes": ["MoE — 37B active params per token; full model requires significant multi-GPU setup"],
+    "variants": [
+      {"quant":"FP8","bits_per_weight":8,"vram_gb":671,"disk_gb":629,"kv_cache_gb_at_full_ctx":36,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":420,"disk_gb":388,"kv_cache_gb_at_full_ctx":36,"quality_pct":"~87%"}
+    ]
+  },
+  {
+    "id": "qwen3.5-397b-a17b",
+    "name": "Qwen3.5 397B-A17B",
+    "vendor": "Qwen/Alibaba",
+    "architecture": "moe",
+    "total_params_b": 397,
+    "active_params_b": 17,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/Qwen/Qwen3.5-397B-A17B",
+    "tier": "frontier",
+    "release_date": "2026-02",
+    "tagline": "Flagship multimodal Qwen3.5. Frontier quality. Server only.",
+    "notes": ["MoE — only 17B active params per token; supports image input (multimodal)"],
+    "variants": [
+      {"quant":"FP8","bits_per_weight":8,"vram_gb":397,"disk_gb":372,"kv_cache_gb_at_full_ctx":14,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":224,"disk_gb":210,"kv_cache_gb_at_full_ctx":14,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":174,"disk_gb":163,"kv_cache_gb_at_full_ctx":14,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "llama-4-maverick",
+    "name": "Llama 4 Maverick",
+    "vendor": "Meta",
+    "architecture": "moe",
+    "total_params_b": 401,
+    "active_params_b": 17,
+    "context_length_k": 1024,
+    "license": "Llama 4 Community",
+    "hf_url": "https://huggingface.co/meta-llama",
+    "tier": "frontier",
+    "release_date": "2025-04",
+    "tagline": "Highest Llama quality. 128 experts. Datacenter only.",
+    "notes": ["MoE with 128 experts; supports 1M token context. Requires multi-GPU cluster for full weights"],
+    "variants": [
+      {"quant":"FP8","bits_per_weight":8,"vram_gb":401,"disk_gb":376,"kv_cache_gb_at_full_ctx":13,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":226,"disk_gb":212,"kv_cache_gb_at_full_ctx":13,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":176,"disk_gb":164,"kv_cache_gb_at_full_ctx":13,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "llama-4-scout",
+    "name": "Llama 4 Scout",
+    "vendor": "Meta",
+    "architecture": "moe",
+    "total_params_b": 109,
+    "active_params_b": 17,
+    "context_length_k": 10240,
+    "license": "Llama 4 Community",
+    "hf_url": "https://huggingface.co/meta-llama",
+    "tier": "frontier",
+    "release_date": "2025-04",
+    "tagline": "Multimodal, 10M context. High KV cost at full ctx.",
+    "notes": ["MoE with 16 experts; supports 10M token context. KV cache at full 10M context requires ~130 GB on top of model weights"],
+    "variants": [
+      {"quant":"FP8","bits_per_weight":8,"vram_gb":109,"disk_gb":102,"kv_cache_gb_at_full_ctx":131,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":62,"disk_gb":57,"kv_cache_gb_at_full_ctx":131,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":48,"disk_gb":44,"kv_cache_gb_at_full_ctx":131,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "gpt-oss-120b",
+    "name": "OpenAI GPT-OSS 120B",
+    "vendor": "OpenAI",
+    "architecture": "dense",
+    "total_params_b": 120,
+    "active_params_b": 120,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/openai/gpt-oss-120b",
+    "tier": "frontier",
+    "release_date": "2025-08",
+    "tagline": "OpenAI's large open model. Frontier quality. Needs 68GB at Q4.",
+    "notes": [],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":240,"disk_gb":225,"kv_cache_gb_at_full_ctx":24,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":120,"disk_gb":113,"kv_cache_gb_at_full_ctx":24,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":68,"disk_gb":63,"kv_cache_gb_at_full_ctx":24,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":53,"disk_gb":49,"kv_cache_gb_at_full_ctx":24,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "gpt-oss-20b",
+    "name": "OpenAI GPT-OSS 20B",
+    "vendor": "OpenAI",
+    "architecture": "dense",
+    "total_params_b": 21.5,
+    "active_params_b": 21.5,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/openai/gpt-oss-20b",
+    "tier": "frontier",
+    "release_date": "2025-08",
+    "tagline": "OpenAI's open model. Frontier quality at 20B. Fits 12GB at Q4.",
+    "notes": [],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":43,"disk_gb":40,"kv_cache_gb_at_full_ctx":10,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":22,"disk_gb":20,"kv_cache_gb_at_full_ctx":10,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":12,"disk_gb":11,"kv_cache_gb_at_full_ctx":10,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":10,"disk_gb":9,"kv_cache_gb_at_full_ctx":10,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "qwen3-coder-next",
+    "name": "Qwen3-Coder-Next",
+    "vendor": "Qwen/Alibaba",
+    "architecture": "dense",
+    "total_params_b": 80,
+    "active_params_b": 80,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/Qwen/Qwen3-Coder-Next",
+    "tier": "coding",
+    "release_date": "2026-01",
+    "tagline": "Agentic coding & long-context code. Top coder. Needs 45GB at Q4.",
+    "notes": ["Optimized for agentic coding tasks and long-context code generation"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":160,"disk_gb":150,"kv_cache_gb_at_full_ctx":20,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":80,"disk_gb":75,"kv_cache_gb_at_full_ctx":20,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":45,"disk_gb":42,"kv_cache_gb_at_full_ctx":20,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":35,"disk_gb":33,"kv_cache_gb_at_full_ctx":20,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "qwen3-coder-30b-a3b",
+    "name": "Qwen3-Coder 30B-A3B",
+    "vendor": "Qwen/Alibaba",
+    "architecture": "moe",
+    "total_params_b": 30,
+    "active_params_b": 3,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "tier": "coding",
+    "release_date": "2025-07",
+    "tagline": "Best local coding MoE. 3B active; fits 16GB. Weak at deep reasoning.",
+    "notes": ["MoE — only 3B params active per token; much faster than dense 30B equivalent"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":60,"disk_gb":56,"kv_cache_gb_at_full_ctx":8,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":30,"disk_gb":28,"kv_cache_gb_at_full_ctx":8,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":17,"disk_gb":16,"kv_cache_gb_at_full_ctx":8,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":13,"disk_gb":12,"kv_cache_gb_at_full_ctx":8,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "qwen3.5-122b-a10b",
+    "name": "Qwen3.5 122B-A10B",
+    "vendor": "Qwen/Alibaba",
+    "architecture": "moe",
+    "total_params_b": 122,
+    "active_params_b": 10,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/Qwen/Qwen3.5-122B-A10B",
+    "tier": "average",
+    "release_date": "2026-02",
+    "tagline": "Near-frontier MoE. 10B active; fast. Needs 69GB VRAM at Q4.",
+    "notes": ["MoE — only 10B active per token; supports image input (multimodal)"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":244,"disk_gb":228,"kv_cache_gb_at_full_ctx":12,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":122,"disk_gb":114,"kv_cache_gb_at_full_ctx":12,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":69,"disk_gb":64,"kv_cache_gb_at_full_ctx":12,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":53,"disk_gb":50,"kv_cache_gb_at_full_ctx":12,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "llama-3.3-70b",
+    "name": "Llama 3.3 70B",
+    "vendor": "Meta",
+    "architecture": "dense",
+    "total_params_b": 70,
+    "active_params_b": 70,
+    "context_length_k": 128,
+    "license": "Llama 3.3 Community",
+    "hf_url": "https://huggingface.co/meta-llama",
+    "tier": "average",
+    "release_date": "2024-12",
+    "tagline": "Meta's best dense local model. High quality. Needs 45GB at Q4.",
+    "notes": [],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":140,"disk_gb":130,"kv_cache_gb_at_full_ctx":24,"quality_pct":"100%"},
+      {"quant":"FP8","bits_per_weight":8,"vram_gb":70,"disk_gb":65,"kv_cache_gb_at_full_ctx":24,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":45,"disk_gb":40,"kv_cache_gb_at_full_ctx":24,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":35,"disk_gb":30,"kv_cache_gb_at_full_ctx":24,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "qwen3.5-35b-a3b",
+    "name": "Qwen3.5 35B-A3B",
+    "vendor": "Qwen/Alibaba",
+    "architecture": "moe",
+    "total_params_b": 35,
+    "active_params_b": 3,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/Qwen/Qwen3.5-35B-A3B",
+    "tier": "average",
+    "release_date": "2026-02",
+    "tagline": "35B quality at 3B speed. Very efficient MoE. Fits 20GB at Q4.",
+    "notes": ["MoE — only 3B active per token; supports image input (multimodal)"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":70,"disk_gb":65,"kv_cache_gb_at_full_ctx":6,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":35,"disk_gb":33,"kv_cache_gb_at_full_ctx":6,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":20,"disk_gb":18,"kv_cache_gb_at_full_ctx":6,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":15,"disk_gb":14,"kv_cache_gb_at_full_ctx":6,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "qwen3.5-27b",
+    "name": "Qwen3.5 27B",
+    "vendor": "Qwen/Alibaba",
+    "architecture": "dense",
+    "total_params_b": 27,
+    "active_params_b": 27,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/Qwen/Qwen3.5-27B",
+    "tier": "average",
+    "release_date": "2026-02",
+    "tagline": "Strong multimodal all-rounder. Fits 24GB GPU at Q4.",
+    "notes": ["Supports image input (multimodal)"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":54,"disk_gb":50,"kv_cache_gb_at_full_ctx":16,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":27,"disk_gb":25,"kv_cache_gb_at_full_ctx":16,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":15,"disk_gb":14,"kv_cache_gb_at_full_ctx":16,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":12,"disk_gb":11,"kv_cache_gb_at_full_ctx":16,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "deepseek-r1-32b",
+    "name": "DeepSeek R1 32B",
+    "vendor": "DeepSeek",
+    "architecture": "dense",
+    "total_params_b": 32,
+    "active_params_b": 32,
+    "context_length_k": 64,
+    "license": "MIT",
+    "hf_url": "https://huggingface.co/deepseek-ai",
+    "tier": "average",
+    "release_date": "2025-01",
+    "tagline": "Best local reasoning. Rivals GPT-4 in logic. Fits 22GB at Q4.",
+    "notes": ["Reasoning model — think tokens add significant context length; actual TPS may be lower due to long reasoning chains"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":64,"disk_gb":60,"kv_cache_gb_at_full_ctx":20,"quality_pct":"100%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":22,"disk_gb":19,"kv_cache_gb_at_full_ctx":14,"quality_pct":"~88%"}
+    ]
+  },
+  {
+    "id": "qwq-32b",
+    "name": "QwQ 32B",
+    "vendor": "Qwen/Alibaba",
+    "architecture": "dense",
+    "total_params_b": 32,
+    "active_params_b": 32,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/Qwen",
+    "tier": "average",
+    "release_date": "2024-11",
+    "tagline": "Strong thinking model. Good at reasoning. Fits 22GB at Q4.",
+    "notes": ["Reasoning model — think tokens extend effective context significantly"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":64,"disk_gb":60,"kv_cache_gb_at_full_ctx":20,"quality_pct":"100%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":22,"disk_gb":19,"kv_cache_gb_at_full_ctx":14,"quality_pct":"~88%"}
+    ]
+  },
+  {
+    "id": "gemma3-27b",
+    "name": "Gemma 3 27B",
+    "vendor": "Google",
+    "architecture": "dense",
+    "total_params_b": 27,
+    "active_params_b": 27,
+    "context_length_k": 128,
+    "license": "Gemma ToS",
+    "hf_url": "https://huggingface.co/google",
+    "tier": "average",
+    "release_date": "2025-03",
+    "tagline": "Google's best local model. Strong benchmarks. 18GB at Q4.",
+    "notes": [],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":54,"disk_gb":50,"kv_cache_gb_at_full_ctx":16,"quality_pct":"100%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":18,"disk_gb":16,"kv_cache_gb_at_full_ctx":16,"quality_pct":"~88%"}
+    ]
+  },
+  {
+    "id": "mistral-small-3.1-24b",
+    "name": "Mistral Small 3.1 24B",
+    "vendor": "Mistral AI",
+    "architecture": "dense",
+    "total_params_b": 24,
+    "active_params_b": 24,
+    "context_length_k": 128,
+    "license": "Mistral Research",
+    "hf_url": "https://huggingface.co/mistralai",
+    "tier": "average",
+    "release_date": "2025-03",
+    "tagline": "Multilingual specialist. Good RAG & functions. Fits 14GB at Q4.",
+    "notes": [],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":48,"disk_gb":45,"kv_cache_gb_at_full_ctx":12,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":24,"disk_gb":22,"kv_cache_gb_at_full_ctx":12,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":14,"disk_gb":13,"kv_cache_gb_at_full_ctx":12,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":11,"disk_gb":10,"kv_cache_gb_at_full_ctx":12,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "glm-4.7-flash",
+    "name": "GLM-4.7-Flash",
+    "vendor": "Zhipu AI",
+    "architecture": "moe",
+    "total_params_b": 14,
+    "active_params_b": 3,
+    "context_length_k": 128,
+    "license": "MIT",
+    "hf_url": "https://huggingface.co/zai-org/GLM-4.7-Flash",
+    "tier": "average",
+    "release_date": "2026-01",
+    "tagline": "Fast bilingual MoE. Excellent Chinese/English. Fits 8GB at Q4.",
+    "notes": ["MoE-lite architecture — parameter counts are estimated; check HF model card for exact figures"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":28,"disk_gb":26,"kv_cache_gb_at_full_ctx":6,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":14,"disk_gb":13,"kv_cache_gb_at_full_ctx":6,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":8,"disk_gb":7,"kv_cache_gb_at_full_ctx":6,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":6,"disk_gb":5.5,"kv_cache_gb_at_full_ctx":6,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "gemma3-12b",
+    "name": "Gemma 3 12B",
+    "vendor": "Google",
+    "architecture": "dense",
+    "total_params_b": 12,
+    "active_params_b": 12,
+    "context_length_k": 128,
+    "license": "Gemma ToS",
+    "hf_url": "https://huggingface.co/google",
+    "tier": "average",
+    "release_date": "2025-03",
+    "tagline": "Google's balanced 12B. Strong multilingual. Fits 8GB at Q4.",
+    "notes": [],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":24,"disk_gb":22,"kv_cache_gb_at_full_ctx":12,"quality_pct":"100%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":8,"disk_gb":7,"kv_cache_gb_at_full_ctx":12,"quality_pct":"~88%"}
+    ]
+  },
+  {
+    "id": "qwen3.5-9b",
+    "name": "Qwen3.5 9B",
+    "vendor": "Qwen/Alibaba",
+    "architecture": "dense",
+    "total_params_b": 9,
+    "active_params_b": 9,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/Qwen/Qwen3.5-9B",
+    "tier": "average",
+    "release_date": "2026-02",
+    "tagline": "Best 9B model (2026). Multimodal. Fits any 8GB+ GPU at Q4.",
+    "notes": ["Supports image input (multimodal)"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":18,"disk_gb":17,"kv_cache_gb_at_full_ctx":8,"quality_pct":"100%"},
+      {"quant":"Q8_0","bits_per_weight":8,"vram_gb":9.5,"disk_gb":9,"kv_cache_gb_at_full_ctx":8,"quality_pct":"~99%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":5.5,"disk_gb":5,"kv_cache_gb_at_full_ctx":8,"quality_pct":"~87%"},
+      {"quant":"Q3_K_M","bits_per_weight":3.5,"vram_gb":4,"disk_gb":3.5,"kv_cache_gb_at_full_ctx":8,"quality_pct":"~80%"}
+    ]
+  },
+  {
+    "id": "gemma3-4b",
+    "name": "Gemma 3 4B",
+    "vendor": "Google",
+    "architecture": "dense",
+    "total_params_b": 4,
+    "active_params_b": 4,
+    "context_length_k": 128,
+    "license": "Gemma ToS",
+    "hf_url": "https://huggingface.co/google",
+    "tier": "average",
+    "release_date": "2025-03",
+    "tagline": "Google's efficient 4B. Good quality. Fits 3GB VRAM at Q4.",
+    "notes": [],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":8,"disk_gb":7.5,"kv_cache_gb_at_full_ctx":6,"quality_pct":"100%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":3,"disk_gb":2.5,"kv_cache_gb_at_full_ctx":6,"quality_pct":"~88%"}
+    ]
+  },
+  {
+    "id": "phi-4-mini",
+    "name": "Phi-4 Mini",
+    "vendor": "Microsoft",
+    "architecture": "dense",
+    "total_params_b": 3.8,
+    "active_params_b": 3.8,
+    "context_length_k": 128,
+    "license": "MIT",
+    "hf_url": "https://huggingface.co/microsoft",
+    "tier": "average",
+    "release_date": "2025-02",
+    "tagline": "STEM & math specialist. Strong for its size. Fits 3GB VRAM.",
+    "notes": [],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":7.6,"disk_gb":7,"kv_cache_gb_at_full_ctx":4,"quality_pct":"100%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":3,"disk_gb":2.5,"kv_cache_gb_at_full_ctx":4,"quality_pct":"~90%"}
+    ]
+  },
+  {
+    "id": "qwen3.5-4b",
+    "name": "Qwen3.5 4B",
+    "vendor": "Qwen/Alibaba",
+    "architecture": "dense",
+    "total_params_b": 4,
+    "active_params_b": 4,
+    "context_length_k": 128,
+    "license": "Apache 2.0",
+    "hf_url": "https://huggingface.co/Qwen/Qwen3.5-4B",
+    "tier": "average",
+    "release_date": "2026-02",
+    "tagline": "Fast lightweight multimodal. Fits 3GB VRAM at Q4.",
+    "notes": ["Supports image input (multimodal)"],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":8,"disk_gb":7.5,"kv_cache_gb_at_full_ctx":6,"quality_pct":"100%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":3,"disk_gb":2.5,"kv_cache_gb_at_full_ctx":6,"quality_pct":"~90%"}
+    ]
+  },
+  {
+    "id": "llama-3.2-3b",
+    "name": "Llama 3.2 3B",
+    "vendor": "Meta",
+    "architecture": "dense",
+    "total_params_b": 3,
+    "active_params_b": 3,
+    "context_length_k": 128,
+    "license": "Llama 3.2 Community",
+    "hf_url": "https://huggingface.co/meta-llama",
+    "tier": "average",
+    "release_date": "2024-09",
+    "tagline": "Meta's tiny 3B. Fastest local option. Fits <3GB VRAM.",
+    "notes": [],
+    "variants": [
+      {"quant":"BF16","bits_per_weight":16,"vram_gb":6,"disk_gb":5.5,"kv_cache_gb_at_full_ctx":4,"quality_pct":"100%"},
+      {"quant":"Q4_K_M","bits_per_weight":4.5,"vram_gb":2.5,"disk_gb":2,"kv_cache_gb_at_full_ctx":4,"quality_pct":"~89%"}
+    ]
+  }
+]

@@ -1,0 +1,547 @@
+/* ── Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0f1117;
+  color: #e2e8f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Layout ───────────────────────────────────────── */
+.app-shell {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Sidebar ──────────────────────────────────────── */
+.sidebar {
+  width: 168px;
+  background: #161b27;
+  border-right: 1px solid #2d3748;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.sidebar-section-label {
+  font-size: 0.65rem;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 8px 10px 4px;
+}
+
+.nav-item {
+  padding: 7px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  border-radius: 6px;
+  margin: 0 6px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-item:hover { color: #94a3b8; }
+
+.nav-item.active {
+  background: #1e3a5f;
+  color: #60a5fa;
+}
+
+/* ── Main content ─────────────────────────────────── */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.page-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+/* ── 2-column card grid ───────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+/* ── Hardware list card ───────────────────────────── */
+.hw-card {
+  background: #1a1f2e;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.hw-card:hover {
+  border-color: #3b82f6;
+  background: #1e2438;
+}
+
+.vendor-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.vendor-badge.apple  { color: #60a5fa; }
+.vendor-badge.nvidia { color: #4ade80; }
+.vendor-badge.other  { color: #c084fc; }
+
+.hw-card-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 6px;
+}
+
+.hw-card-specs {
+  font-size: 0.72rem;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.hw-card-specs span { color: #94a3b8; }
+
+/* ── Model list card ──────────────────────────────── */
+.model-card {
+  background: #1a1f2e;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.model-card:hover {
+  border-color: #3b82f6;
+  background: #1e2438;
+}
+
+.arch-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.arch-badge.dense { color: #60a5fa; }
+.arch-badge.moe   { color: #c084fc; }
+
+/* Tier badge */
+.tier-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-left: 5px;
+}
+
+.tier-badge.frontier { color: #f59e0b; }
+.tier-badge.coding   { color: #22d3ee; }
+.tier-badge.average  { color: #64748b; }
+
+/* Model card header: same flex structure as body */
+.model-card-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+/* Mirrors .model-card-tag width/padding so date aligns with tagline */
+.model-card-tag-hdr {
+  width: 160px;
+  flex-shrink: 0;
+  padding-left: 20px;
+}
+
+.model-card-date {
+  font-size: 0.6rem;
+  color: #475569;
+  white-space: nowrap;
+}
+
+.model-card-date .date-label {
+  color: #4b5a72;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.56rem;
+}
+
+/* Model card body: main info left, tagline right */
+.model-card-body {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.model-card-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.model-card-tag {
+  width: 160px;
+  flex-shrink: 0;
+  font-size: 0.67rem;
+  color: #64748b;
+  line-height: 1.5;
+  border-left: 1px solid #2d3748;
+  padding-left: 20px;
+  font-style: italic;
+}
+
+.model-card-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 4px;
+}
+
+.model-card-specs {
+  font-size: 0.72rem;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.model-card-specs span { color: #94a3b8; }
+
+/* Tagline in spec panel (model detail) */
+.spec-tagline {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  padding: 5px 7px;
+  background: #0f1117;
+  border-radius: 4px;
+  border-left: 2px solid #334155;
+}
+
+/* ── Detail layout (Screens 2 and 3b) ────────────── */
+.detail-shell {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.spec-panel {
+  flex: 0 0 30%;
+  min-width: 200px;
+  background: #161b27;
+  border-right: 1px solid #2d3748;
+  padding: 16px 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.back-link {
+  font-size: 0.7rem;
+  color: #3b82f6;
+  cursor: pointer;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.back-link:hover { color: #60a5fa; }
+
+.spec-panel-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 10px;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.68rem;
+  padding: 3px 0;
+  border-bottom: 1px solid #1e293b;
+  gap: 6px;
+}
+
+.spec-key { color: #64748b; white-space: nowrap; }
+.spec-val { color: #e2e8f0; font-weight: 500; text-align: right; }
+
+/* Notes block */
+.notes-block {
+  margin-top: 12px;
+  padding: 8px 9px;
+  background: #1e293b;
+  border-radius: 5px;
+  border-left: 2px solid #f59e0b;
+}
+
+.notes-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #f59e0b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+
+.notes-text {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.notes-text p { margin-bottom: 3px; }
+.notes-text p:last-child { margin-bottom: 0; }
+
+/* Variants table (Screen 3b) */
+.variants-section-label {
+  font-size: 0.6rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 12px 0 4px;
+}
+
+.variant-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.variant-row:hover { background: #1e293b; }
+
+.variant-row.selected {
+  background: #1e3a5f;
+  color: #60a5fa;
+}
+
+.variant-row .v-quant { font-weight: 600; }
+.variant-row .v-vram  { color: #94a3b8; font-size: 0.62rem; }
+.variant-row.selected .v-vram { color: #60a5fa; }
+
+/* ── Result list (right side of detail pages) ─────── */
+.result-list {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.group-header {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 0 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.group-header.available { color: #4ade80; }
+.group-header.oom       { color: #f87171; }
+
+.empty-state {
+  font-size: 0.72rem;
+  color: #475569;
+  padding: 8px 0 12px;
+  font-style: italic;
+}
+
+/* ── Model row card (Screen 2) ────────────────────── */
+.model-row {
+  display: flex;
+  background: #1a1f2e;
+  border: 1px solid #2d3748;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.model-row.oom-row { opacity: 0.38; }
+
+.model-row-left {
+  flex: 1;
+  padding: 8px 10px;
+  border-right: 1px solid #2d3748;
+  min-width: 0;
+}
+
+.model-row-right {
+  width: 160px;
+  padding: 8px 10px;
+  background: #161b27;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.model-row-name {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 3px;
+}
+
+.model-row-meta {
+  font-size: 0.65rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.perf-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  line-height: 1.8;
+}
+
+.perf-key { color: #64748b; }
+.perf-val { font-weight: 600; }
+
+/* ── Hardware row (Screen 3b) ─────────────────────── */
+.hw-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1f2e;
+  border: 1px solid #2d3748;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+}
+
+.hw-row.oom-row { opacity: 0.38; }
+
+.hw-row-name { font-size: 0.78rem; font-weight: 700; color: #f1f5f9; }
+.hw-row-sub  { font-size: 0.65rem; color: #64748b; }
+
+/* ── TPS badges ───────────────────────────────────── */
+.tps-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.tps-green  { color: #4ade80; }
+.tps-yellow { color: #facc15; }
+.tps-red    { color: #f87171; }
+.tps-oom    { color: #f87171; }
+.tps-dash   { color: #475569; font-weight: 400; }
+
+/* Backgrounds only on badge chips (Screen 3b hardware rows) */
+.tps-badge.tps-green  { background: #14532d; }
+.tps-badge.tps-yellow { background: #713f12; }
+.tps-badge.tps-red    { background: #7f1d1d; }
+.tps-badge.tps-oom    { background: #2d1f1f; }
+
+/* Dot indicator next to model name */
+.tps-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-left: 5px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.tps-dot.tps-green  { background: #4ade80; }
+.tps-dot.tps-yellow { background: #facc15; }
+.tps-dot.tps-red    { background: #f87171; }
+.tps-dot.tps-oom    { background: #f87171; }
+.tps-dot.tps-dash   { background: #475569; }
+
+/* ── Third panel (Screen 2: model → hardware list) ──── */
+.model-row.selected-in-hw {
+  border-color: #3b82f6;
+  background: #1e2438;
+}
+
+/* When panel is open: spec-panel keeps its 30%, the two right columns split the rest equally */
+.detail-shell.three-col .result-list,
+.detail-shell.three-col .hw-model-panel {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Narrower perf panel in three-col mode */
+.detail-shell.three-col .model-row-right {
+  width: 96px;
+}
+
+.hw-model-panel {
+  border-left: 1px solid #2d3748;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.hw-model-panel-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 2px;
+}
+
+.hw-model-panel-sub {
+  font-size: 0.65rem;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+/* Compare icon button on model rows */
+.model-row-action {
+  width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #334155;
+  border-right: 1px solid #2d3748;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+
+.model-row-action:hover { color: #60a5fa; background: #1e2438; }
+.model-row.panel-open .model-row-action { color: #60a5fa; background: #1e3a5f; }
+
+/* Hardware variant label in Screen 3b rows */
+.hw-variant-label {
+  font-size: 0.6rem;
+  color: #60a5fa;
+  font-weight: 500;
+  margin-left: 4px;
+}
