@@ -279,13 +279,25 @@ function renderHardwareDetail() {
     </div>
   ` : '';
 
+  const specChipsHtml = `
+    <div class="spec-chips">
+      <span class="spec-chip primary">${eff.vram_gb} GB</span>
+      <span class="spec-chip">${eff.memory_bandwidth_gbps} GB/s</span>
+      <span class="spec-chip">${formatPrice(eff.price_usd)}</span>
+    </div>
+    <span class="spec-toggle" onclick="toggleSpecs()">▼ Show full specs</span>
+  `;
+
   const specPanel = `
     <div class="spec-panel">
       <span class="back-link" onclick="app.navigate('hardware-list')">← Hardware</span>
       <div class="spec-panel-title">${hw.name}</div>
-      ${specRowsHtml}
-      ${variantSelectorHtml}
-      ${notesHtml}
+      ${specChipsHtml}
+      <div class="spec-full">
+        ${specRowsHtml}
+        ${variantSelectorHtml}
+        ${notesHtml}
+      </div>
     </div>
   `;
 
