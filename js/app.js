@@ -322,7 +322,7 @@ function renderHardwareDetail() {
   function modelRowHtml({ model, variant, effHw, calc, fits }) {
     if (!fits) {
       return `
-        <div class="model-row oom-row">
+        <div class="model-row oom-row" onclick="selectModelHighlight('${model.id}')">
           <div class="model-row-left">
             <div class="model-row-name">${model.name}</div>
             <div class="model-row-meta">${model.total_params_b}B params · ${variant.quant} · needs ${variant.vram_gb} GB VRAM</div>
@@ -407,6 +407,11 @@ window.selectHardwareVariant = selectHardwareVariant;
 
 // Highlight a model row in Screen 2 (card click — no panel)
 function selectModelHighlight(modelId) {
+  if (window.innerWidth <= 640) {
+    navigate('model-detail', modelId);
+    return;
+  }
+  // desktop: toggle highlight + optional panel
   state.selectedModelIdInHw = state.selectedModelIdInHw === modelId ? null : modelId;
   if (!state.selectedModelIdInHw) state.hwPanelOpen = false;
   render();
