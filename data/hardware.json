@@ -136,6 +136,7 @@
     "price_usd": 1599,
     "tdp_w": 450,
     "framework": ["CUDA", "llama.cpp"],
+    "native_quants": ["FP8"],
     "notes": [],
     "special_behavior": null
   },
@@ -152,6 +153,7 @@
     "price_usd": 299,
     "tdp_w": 150,
     "framework": ["CUDA", "llama.cpp"],
+    "native_quants": ["FP8"],
     "notes": ["Only 8GB VRAM — fits very small models only"],
     "special_behavior": null
   },
@@ -168,6 +170,7 @@
     "price_usd": 429,
     "tdp_w": 165,
     "framework": ["CUDA", "llama.cpp"],
+    "native_quants": ["FP8"],
     "notes": [],
     "special_behavior": null
   },
@@ -184,6 +187,7 @@
     "price_usd": 1999,
     "tdp_w": 575,
     "framework": ["CUDA", "llama.cpp"],
+    "native_quants": ["FP8"],
     "notes": [],
     "special_behavior": null
   },
@@ -200,6 +204,7 @@
     "price_usd": 7500,
     "tdp_w": 300,
     "framework": ["CUDA", "llama.cpp"],
+    "native_quants": ["FP8"],
     "notes": ["Professional workstation card with ECC memory"],
     "special_behavior": null
   },
@@ -254,7 +259,24 @@
     "price_usd": 3499,
     "tdp_w": null,
     "framework": ["CUDA", "llama.cpp"],
+    "native_quants": ["FP8", "MXFP4_MOE"],
     "notes": ["Grace Blackwell superchip — 128GB unified memory, enterprise AI workstation"],
+    "special_behavior": null
+  },
+  {
+    "id": "amd-rx-7900-xtx",
+    "name": "AMD RX 7900 XTX",
+    "vendor": "AMD",
+    "type": "amd_gpu",
+    "vram_gb": 24,
+    "memory_bandwidth_gbps": 960,
+    "compute_tflops_fp16": 61.4,
+    "storage_read_gbps": 5.0,
+    "pcie_bandwidth_gbps": 32.0,
+    "price_usd": 899,
+    "tdp_w": 355,
+    "framework": ["ROCm", "llama.cpp"],
+    "notes": ["ROCm framework — ~25% lower throughput than CUDA equivalent for LLM inference"],
     "special_behavior": null
   },
   {

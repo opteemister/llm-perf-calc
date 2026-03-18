@@ -1,4 +1,4 @@
-import { calcAll } from './calc.js';
+import { calcAll, calcTPSAtCtx } from './calc.js';
 
 // ── State ─────────────────────────────────────────────────────────────────
 const state = {
@@ -9,6 +9,7 @@ const state = {
   selectedHwVariantIdx: 0,    // hardware variant index (Screen 2)
   selectedModelIdInHw: null,  // highlighted model in Screen 2
   hwPanelOpen: false,         // third panel visible in Screen 2
+  contextK: 0,                // context length in K tokens for TPS calculation
 };
 
 let hardware = [];
@@ -43,6 +44,25 @@ export function navigate(screen, id) {
 
 window.app = { navigate };
 
+// ── Context slider ─────────────────────────────────────────────────────────
+function setContextK(k) {
+  state.contextK = parseInt(k);
+  render();
+}
+window.setContextK = setContextK;
+
+function ctxSliderHtml() {
+  const label = state.contextK === 0 ? '0 K — peak throughput' : `${state.contextK} K tokens`;
+  return `
+    <div class="ctx-slider-bar">
+      <span class="ctx-label">Context</span>
+      <input type="range" min="0" max="256" step="4" value="${state.contextK}"
+             oninput="setContextK(this.value)" class="ctx-slider">
+      <span class="ctx-val">${label}</span>
+    </div>
+  `;
+}
+
 // ── Render dispatcher ─────────────────────────────────────────────────────
 function render() {
   updateSidebarActive();
@@ -71,6 +91,7 @@ function mount(html) {
 function vendorBadgeClass(hw) {
   if (hw.type === 'apple_silicon') return 'apple';
   if (hw.type === 'nvidia_gpu')    return 'nvidia';
+  if (hw.type === 'amd_gpu')       return 'amd';
   return 'other';
 }
 
@@ -258,9 +279,9 @@ function renderHardwareDetail() {
     const variant = bestVariant(eff, model);
     if (!variant) {
       const smallest = model.variants.reduce((a, b) => a.vram_gb <= b.vram_gb ? a : b);
-      return { model, variant: smallest, calc: calcAll(eff, model, smallest), fits: false };
+      return { model, variant: smallest, effHw: eff, calc: calcAll(eff, model, smallest), fits: false };
     }
-    return { model, variant, calc: calcAll(eff, model, variant), fits: true };
+    return { model, variant, effHw: eff, calc: calcAll(eff, model, variant), fits: true };
   });
 
   const available = evaluated
@@ -271,7 +292,7 @@ function renderHardwareDetail() {
     .filter(e => !e.fits)
     .sort((a, b) => b.model.total_params_b - a.model.total_params_b);
 
-  function modelRowHtml({ model, variant, calc, fits }) {
+  function modelRowHtml({ model, variant, effHw, calc, fits }) {
     if (!fits) {
       return `
         <div class="model-row oom-row">
@@ -286,10 +307,11 @@ function renderHardwareDetail() {
       `;
     }
 
-    const tps      = metricDisplay(calc.tps);
-    const tpsMax   = metricDisplay(calc.tps_max_ctx);
+    const tpsAtCtx = calcTPSAtCtx(effHw, model, variant, state.contextK);
     const prefill  = metricDisplay(calc.prefill_tps);
     const loadTime = calc.load_time_s !== null ? `${calc.load_time_s}s` : '—';
+    const isNative = effHw.native_quants?.includes(variant.quant);
+    const tpsLabel = state.contextK > 0 ? `@${state.contextK}K` : 'TPS';
 
     const isSelected = state.selectedModelIdInHw === model.id;
     const isPanelOpen = isSelected && state.hwPanelOpen;
@@ -297,9 +319,9 @@ function renderHardwareDetail() {
     return `
       <div class="model-row${isSelected ? ' selected-in-hw' : ''}${isPanelOpen ? ' panel-open' : ''}" onclick="selectModelHighlight('${model.id}')">
         <div class="model-row-left">
-          <div class="model-row-name">${model.name}<span class="tps-dot ${tpsClass(calc.tps)}"></span></div>
+          <div class="model-row-name">${model.name}<span class="tps-dot ${tpsClass(tpsAtCtx)}"></span></div>
           <div class="model-row-meta">
-            ${model.total_params_b}B params · ${variant.quant} · ${variant.vram_gb} GB VRAM · disk ${variant.disk_gb} GB · ${ctxLabel(model.context_length_k)} ctx
+            ${model.total_params_b}B params · ${variant.quant}${isNative ? ' <span class="native-badge">native</span>' : ''} · ${variant.vram_gb} GB VRAM · disk ${variant.disk_gb} GB · ${ctxLabel(model.context_length_k)} ctx
           </div>
         </div>
         <div class="model-row-action" onclick="toggleHwPanel('${model.id}', event)" title="Show on all hardware">${panelIcon}</div>
@@ -309,12 +331,8 @@ function renderHardwareDetail() {
             <span class="perf-val">${prefill === '—' ? '<span class="tps-dash">—</span>' : prefill + '/s'}</span>
           </div>
           <div class="perf-row">
-            <span class="perf-key">TPS</span>
-            <span class="perf-val ${tpsClass(calc.tps)}">${tps}</span>
-          </div>
-          <div class="perf-row">
-            <span class="perf-key">max ctx</span>
-            <span class="perf-val ${tpsClass(calc.tps_max_ctx)}">${tpsMax}</span>
+            <span class="perf-key">${tpsLabel}</span>
+            <span class="perf-val ${tpsClass(tpsAtCtx)}">${metricDisplay(tpsAtCtx)}</span>
           </div>
           <div class="perf-row">
             <span class="perf-key">Load</span>
@@ -342,6 +360,7 @@ function renderHardwareDetail() {
     <div class="detail-shell${selectedModel ? ' three-col' : ''}">
       ${specPanel}
       <div class="result-list">
+        ${ctxSliderHtml()}
         ${availableGroup}
         ${oomGroup}
       </div>
@@ -428,13 +447,15 @@ function buildHwModelPanel(model) {
         </div>
       `;
     }
+    const tpsVal = calcTPSAtCtx(eff, model, variant, state.contextK);
+    const tpsLabel = state.contextK > 0 ? `@${state.contextK}K` : 'TPS';
     return `
       <div class="hw-row">
         <div>
           <div class="hw-row-name">${hw.name}${varLabel}</div>
           <div class="hw-row-sub">${eff.vram_gb} GB · ${eff.memory_bandwidth_gbps} GB/s</div>
         </div>
-        <span class="tps-badge ${tpsClass(calc.tps)}">${metricDisplay(calc.tps)} TPS</span>
+        <span class="tps-badge ${tpsClass(tpsVal)}">${metricDisplay(tpsVal)} ${tpsLabel}</span>
       </div>
     `;
   }
@@ -607,13 +628,15 @@ function renderModelDetail() {
         </div>
       `;
     }
+    const tpsVal = calcTPSAtCtx(eff, model, variant, state.contextK);
+    const tpsLabel = state.contextK > 0 ? `@${state.contextK}K` : 'TPS';
     return `
       <div class="hw-row">
         <div>
           <div class="hw-row-name">${hw.name}${varLabel}</div>
           <div class="hw-row-sub">${eff.vram_gb} GB · ${eff.memory_bandwidth_gbps} GB/s</div>
         </div>
-        <span class="tps-badge ${tpsClass(calc.tps)}">${metricDisplay(calc.tps)} TPS</span>
+        <span class="tps-badge ${tpsClass(tpsVal)}">${metricDisplay(tpsVal)} ${tpsLabel}</span>
       </div>
     `;
   }
@@ -630,6 +653,7 @@ function renderModelDetail() {
     <div class="detail-shell">
       ${specPanel}
       <div class="result-list">
+        ${ctxSliderHtml()}
         ${availableGroup3b}
         ${oomGroup3b}
       </div>

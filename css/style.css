@@ -108,6 +108,7 @@ body {
 
 .vendor-badge.apple  { color: #60a5fa; }
 .vendor-badge.nvidia { color: #4ade80; }
+.vendor-badge.amd    { color: #f97316; }
 .vendor-badge.other  { color: #c084fc; }
 
 .hw-card-name {
@@ -537,6 +538,55 @@ body {
 
 .model-row-action:hover { color: #60a5fa; background: #1e2438; }
 .model-row.panel-open .model-row-action { color: #60a5fa; background: #1e3a5f; }
+
+/* ── Context length slider ────────────────────────── */
+.ctx-slider-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 12px;
+  border-bottom: 1px solid #1e293b;
+  margin-bottom: 10px;
+}
+
+.ctx-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.ctx-slider {
+  flex: 1;
+  height: 3px;
+  accent-color: #3b82f6;
+  cursor: pointer;
+}
+
+.ctx-val {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  min-width: 120px;
+  text-align: right;
+}
+
+/* ── Native quant badge ───────────────────────────── */
+.native-badge {
+  display: inline-block;
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #4ade80;
+  background: #14532d;
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-left: 3px;
+  vertical-align: middle;
+}
 
 /* Hardware variant label in Screen 3b rows */
 .hw-variant-label {

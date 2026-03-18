@@ -16,26 +16,54 @@ export function effectiveBandwidth(hardware, variant) {
   return hardware.memory_bandwidth_gbps;
 }
 
+// MoE models have lower effective bandwidth utilization than dense models:
+// - Dense: sequential weight reads → high utilization (0.75)
+// - MoE on Apple Silicon: unified memory handles random expert access well (0.55)
+// - MoE on discrete GPU: experts scattered across VRAM, cache misses dominate (0.15)
+// AMD ROCm is ~25% less efficient than CUDA for equivalent hardware
+function inferenceEfficiency(hardware, model) {
+  const isMoe = model.architecture === 'moe';
+  let eff = isMoe
+    ? (hardware.type === 'apple_silicon' ? 0.55 : 0.15)
+    : 0.75;
+  if (hardware.type === 'amd_gpu') eff *= 0.75;
+  return eff;
+}
+
+// Hardware with native support for specific quantization formats eliminates
+// dequantization overhead, giving ~30% throughput boost
+function nativeQuantMultiplier(hardware, variant) {
+  if (!hardware.native_quants?.length) return 1.0;
+  return hardware.native_quants.includes(variant.quant) ? 1.3 : 1.0;
+}
+
 // Each token = read all active weights once through memory
 export function calcTPS(hardware, model, variant) {
   if (!canRun(hardware, variant)) return null;
   const bw = effectiveBandwidth(hardware, variant);
   const bytes_per_token = model.active_params_b * 1e9 * (variant.bits_per_weight / 8);
-  const tps = (bw * 1e9) / bytes_per_token;
-  return Math.round(tps * 0.75);
+  return Math.round((bw * 1e9) / bytes_per_token * inferenceEfficiency(hardware, model) * nativeQuantMultiplier(hardware, variant));
 }
 
-// Returns number, or "OOM" string if model+KV won't fit in VRAM
-export function calcTPSMaxCtx(hardware, model, variant) {
+// Returns TPS at a given context length in K tokens (0 = empty context = peak TPS).
+// Returns 'OOM' if the KV cache at that context does not fit alongside model weights.
+export function calcTPSAtCtx(hardware, model, variant, ctx_k) {
   if (!canRun(hardware, variant)) return null;
-  if (variant.vram_gb + variant.kv_cache_gb_at_full_ctx > hardware.vram_gb) {
-    return "OOM";
-  }
+  if (ctx_k <= 0) return calcTPS(hardware, model, variant);
+  const eff_ctx_k = Math.min(ctx_k, model.context_length_k);
+  const kv_fraction = eff_ctx_k / model.context_length_k;
+  const kv_gb = variant.kv_cache_gb_at_full_ctx * kv_fraction;
+  if (variant.vram_gb + kv_gb > hardware.vram_gb) return 'OOM';
   const bw = effectiveBandwidth(hardware, variant);
   const bytes_model = model.active_params_b * 1e9 * (variant.bits_per_weight / 8);
-  const bytes_kv = variant.kv_cache_gb_at_full_ctx * 1e9;
-  const bytes_total = bytes_model + bytes_kv;
-  return Math.round((bw * 1e9) / bytes_total * 0.75);
+  const bytes_kv = kv_gb * 1e9;
+  const efficiency = inferenceEfficiency(hardware, model) * nativeQuantMultiplier(hardware, variant);
+  return Math.round((bw * 1e9) / (bytes_model + bytes_kv) * efficiency);
+}
+
+// Max context TPS — delegates to calcTPSAtCtx at full context
+export function calcTPSMaxCtx(hardware, model, variant) {
+  return calcTPSAtCtx(hardware, model, variant, model.context_length_k);
 }
 
 // Apple Silicon: NVMe → unified memory directly
