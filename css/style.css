@@ -656,3 +656,70 @@ body {
 }
 
 .spec-toggle:hover { color: #60a5fa; }
+
+/* ── Mobile layout (≤640px) ──────────────────────── */
+@media (max-width: 640px) {
+
+  /* Show tabs, hide sidebar */
+  .mobile-tabs { display: flex; }
+  .sidebar     { display: none; }
+
+  /* App shell stacks vertically */
+  .app-shell {
+    flex-direction: column;
+    height: 100dvh;
+  }
+
+  /* Main content fills remaining height */
+  .main-content {
+    padding: 12px 14px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Cards: single column */
+  .card-grid { grid-template-columns: 1fr; }
+
+  /* Detail shell: stacked vertically */
+  .detail-shell {
+    flex-direction: column;
+    height: auto;
+    overflow: auto;
+  }
+
+  /* Spec panel becomes compact header block */
+  .spec-panel {
+    flex: none;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #2d3748;
+    overflow: visible;
+    padding: 10px 14px;
+  }
+
+  /* Show chips and toggle, hide full spec rows by default */
+  .spec-chips  { display: flex; }
+  .spec-toggle { display: block; }
+  .spec-full   { display: none; }
+
+  /* Result list full width */
+  .result-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  /* Three-col: result list still fills width */
+  .detail-shell.three-col .result-list { flex: 1; }
+
+  /* Hide 3rd panel and panel icon button */
+  .hw-model-panel   { display: none; }
+  .model-row-action { display: none; }
+
+  /* Slightly narrower perf column on small screens */
+  .model-row-right { width: 120px; }
+
+  /* Minor spacing adjustments */
+  .page-title    { font-size: 0.9rem; }
+  .page-subtitle { margin-bottom: 12px; }
+}
