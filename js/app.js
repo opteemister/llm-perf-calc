@@ -75,12 +75,16 @@ function render() {
 }
 
 function updateSidebarActive() {
-  const hw = document.getElementById('nav-hardware');
-  const mo = document.getElementById('nav-models');
+  const hw  = document.getElementById('nav-hardware');
+  const mo  = document.getElementById('nav-models');
+  const mhw = document.getElementById('mtab-hardware');
+  const mmo = document.getElementById('mtab-models');
   if (!hw || !mo) return;
   const onHw = state.screen === 'hardware-list' || state.screen === 'hardware-detail';
-  hw.className = 'nav-item' + (onHw ? ' active' : '');
-  mo.className = 'nav-item' + (!onHw ? ' active' : '');
+  hw.className  = 'nav-item'   + (onHw  ? ' active' : '');
+  mo.className  = 'nav-item'   + (!onHw ? ' active' : '');
+  if (mhw) mhw.className = 'mobile-tab' + (onHw  ? ' active' : '');
+  if (mmo) mmo.className = 'mobile-tab' + (!onHw ? ' active' : '');
 }
 
 function mount(html) {
