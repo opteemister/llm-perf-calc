@@ -27,6 +27,12 @@
 
   <div class="app-shell">
 
+    <!-- Mobile tab bar (hidden on desktop, shown on ≤640px) -->
+    <div class="mobile-tabs">
+      <div class="mobile-tab active" id="mtab-hardware" onclick="app.navigate('hardware-list')">Hardware</div>
+      <div class="mobile-tab"        id="mtab-models"   onclick="app.navigate('models-list')">Models</div>
+    </div>
+
     <!-- Left sidebar -->
     <nav class="sidebar">
       <div class="sidebar-section-label">Views</div>
