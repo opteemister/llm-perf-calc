@@ -591,6 +591,19 @@ function renderModelDetail() {
     </div>
   ` : '';
 
+  const paramsChip = model.architecture === 'moe'
+    ? `${model.active_params_b}B active`
+    : `${model.total_params_b}B`;
+
+  const modelSpecChipsHtml = `
+    <div class="spec-chips">
+      <span class="spec-chip primary">${paramsChip}</span>
+      <span class="spec-chip">${ctxLabel(model.context_length_k)} ctx</span>
+      <span class="spec-chip">${model.license}</span>
+    </div>
+    <span class="spec-toggle" onclick="toggleSpecs()">▼ Show full specs</span>
+  `;
+
   const specPanel = `
     <div class="spec-panel">
       <span class="back-link" onclick="app.navigate('models-list')">← Models</span>
@@ -602,10 +615,13 @@ function renderModelDetail() {
       </div>
       <div class="spec-panel-title">${model.name}</div>
       ${model.tagline ? `<div class="spec-tagline">${model.tagline}</div>` : ''}
-      ${specRows}
-      <div class="variants-section-label">Variants</div>
-      ${variantRows}
-      ${notesHtml}
+      ${modelSpecChipsHtml}
+      <div class="spec-full">
+        ${specRows}
+        <div class="variants-section-label">Variants</div>
+        ${variantRows}
+        ${notesHtml}
+      </div>
     </div>
   `;
 
