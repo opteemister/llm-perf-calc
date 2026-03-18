@@ -595,3 +595,64 @@ body {
   font-weight: 500;
   margin-left: 4px;
 }
+
+/* ── Mobile tab bar (hidden on desktop) ──────────── */
+.mobile-tabs {
+  display: none;
+  flex-direction: row;
+  flex-shrink: 0;
+  background: #0f1117;
+  border-bottom: 1px solid #2d3748;
+}
+
+.mobile-tab {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.mobile-tab:hover { color: #94a3b8; }
+
+.mobile-tab.active {
+  color: #60a5fa;
+  border-bottom-color: #3b82f6;
+}
+
+/* ── Spec compact header chips (hidden on desktop) ── */
+.spec-chips {
+  display: none;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 6px 0;
+}
+
+.spec-chip {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #1a2535;
+  color: #94a3b8;
+}
+
+.spec-chip.primary {
+  background: #1e3a5f;
+  color: #60a5fa;
+}
+
+.spec-toggle {
+  display: none;
+  font-size: 0.68rem;
+  color: #3b82f6;
+  cursor: pointer;
+  margin-top: 4px;
+  user-select: none;
+}
+
+.spec-toggle:hover { color: #60a5fa; }
