@@ -51,6 +51,17 @@ function setContextK(k) {
 }
 window.setContextK = setContextK;
 
+function toggleSpecs() {
+  const el  = document.querySelector('.spec-full');
+  const btn = document.querySelector('.spec-toggle');
+  if (!el || !btn) return;
+  const isHidden = el.style.display === 'none' ||
+                   (!el.style.display && getComputedStyle(el).display === 'none');
+  el.style.display = isHidden ? 'block' : 'none';
+  btn.textContent  = isHidden ? '▲ Hide specs' : '▼ Show full specs';
+}
+window.toggleSpecs = toggleSpecs;
+
 function ctxSliderHtml() {
   const label = state.contextK === 0 ? '0 K — peak throughput' : `${state.contextK} K tokens`;
   return `
