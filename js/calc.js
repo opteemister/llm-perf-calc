@@ -18,14 +18,19 @@ export function effectiveBandwidth(hardware, variant) {
 
 // MoE models have lower effective bandwidth utilization than dense models:
 // - Dense: sequential weight reads → high utilization (0.75)
-// - MoE on Apple Silicon: unified memory handles random expert access well (0.55)
+// - MoE on Apple Silicon: unified memory is marginally better than discrete GPU
+//   for random expert access, but Metal/MLX MoE kernels are less optimized (0.22)
+// - MoE on unified CUDA (DGX Spark GB10): same unified memory architecture as Apple
+//   but CUDA inference stack is significantly better optimized for MoE routing (0.35)
 // - MoE on discrete GPU: experts scattered across VRAM, cache misses dominate (0.15)
 // AMD ROCm is ~25% less efficient than CUDA for equivalent hardware
+// Calibrated against Qwen3.5 35B A3B MoE Q4_K_M benchmarks.
 function inferenceEfficiency(hardware, model) {
   const isMoe = model.architecture === 'moe';
-  let eff = isMoe
-    ? (hardware.type === 'apple_silicon' ? 0.55 : 0.15)
-    : 0.75;
+  if (!isMoe) return 0.75;
+  if (hardware.type === 'apple_silicon') return 0.22;
+  if (hardware.type === 'unified_cuda') return 0.35;
+  let eff = 0.15;
   if (hardware.type === 'amd_gpu') eff *= 0.75;
   return eff;
 }

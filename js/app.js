@@ -45,6 +45,12 @@ export function navigate(screen, id) {
 window.app = { navigate };
 
 // ── Context slider ─────────────────────────────────────────────────────────
+function updateCtxLabel(k) {
+  const el = document.querySelector('.ctx-val');
+  if (el) el.textContent = parseInt(k) === 0 ? '0 K — peak throughput' : `${k} K tokens`;
+}
+window.updateCtxLabel = updateCtxLabel;
+
 function setContextK(k) {
   state.contextK = parseInt(k);
   render();
@@ -68,7 +74,7 @@ function ctxSliderHtml() {
     <div class="ctx-slider-bar">
       <span class="ctx-label">Context</span>
       <input type="range" min="0" max="256" step="4" value="${state.contextK}"
-             oninput="setContextK(this.value)" class="ctx-slider">
+             oninput="updateCtxLabel(this.value)" onchange="setContextK(this.value)" class="ctx-slider">
       <span class="ctx-val">${label}</span>
     </div>
   `;
